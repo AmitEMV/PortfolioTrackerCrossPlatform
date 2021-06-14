@@ -1,0 +1,18 @@
+﻿<Page
+    x:Class="PortfolioTracker.Views.DashboardView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PortfolioTracker.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:PortfolioTracker.ViewModels"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.DataContext>
+        <viewmodels:DashboardViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+    <Grid>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,250,0,0" FontSize="14" Width="100" Text="{x:Bind ViewModel.TotalValue, Mode=OneWay}" ></TextBlock>
+        <Button HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Height="40" Content="Click" Command="{x:Bind ViewModel.GetTotalValuesCommand}"></Button>
+    </Grid>
+</Page>
