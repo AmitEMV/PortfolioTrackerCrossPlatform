@@ -1,4 +1,0 @@
-﻿
-namespace PortfolioTracker.Skia.Gtk
-{
-}
