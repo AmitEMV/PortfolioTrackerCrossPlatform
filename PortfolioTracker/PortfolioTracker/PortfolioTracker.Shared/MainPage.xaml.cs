@@ -26,10 +26,11 @@ namespace PortfolioTracker
         public MainPage()
         {
             this.InitializeComponent();
+
 #if __ANDROID__ || __IOS__
-    RootNavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.Left;
+    RootNavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.Auto;
 #else
-            RootNavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.Top;
+    RootNavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.Top;
 #endif
         }
 
