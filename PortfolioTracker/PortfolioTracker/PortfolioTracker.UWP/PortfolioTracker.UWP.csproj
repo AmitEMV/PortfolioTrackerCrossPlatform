@@ -33,6 +33,9 @@
       <Version>5.0.2</Version>
     </PackageReference>
     <PackageReference Include="Uno.Core" Version="2.4.0" />
+    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed">
+      <Version>2.0.3-uno.95</Version>
+    </PackageReference>
     <PackageReference Include="Uno.UI" Version="3.8.6" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
