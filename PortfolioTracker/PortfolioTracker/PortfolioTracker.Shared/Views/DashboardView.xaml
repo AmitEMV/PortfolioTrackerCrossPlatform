@@ -7,70 +7,83 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="using:PortfolioTracker.ViewModels"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d">
     <Page.DataContext>
         <viewmodels:DashboardViewModel x:Name="ViewModel" />
     </Page.DataContext>
-    <Grid Background="#f3f5f7">
-        <!--<Grid.RowDefinitions>
-            <RowDefinition Height=".2*"></RowDefinition>
-            <RowDefinition Height=".4*"></RowDefinition>
-            <RowDefinition Height=".4*"></RowDefinition>
+    <Page.Resources>
+        <DataTemplate x:Key="Summary_SmallWidth">
+            <Border Background="White" CornerRadius="5" Height="90" HorizontalAlignment="Stretch" VerticalAlignment="Center" MaxWidth="660">
+                <StackPanel HorizontalAlignment="Center">
+                    <TextBlock HorizontalAlignment="Center" FontSize="14" Margin="0,5,0,0">
+                            <Run>Total account value is ₹ </Run>
+                            <Run Text="{Binding TotalValue, Mode=OneWay}" FontWeight="Bold"/>
+                    </TextBlock>
+                    <Button  Width="80" Height="34" Content="Details" Command="{Binding GetTotalValuesCommand}" 
+                             Margin="0,20,0,10" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Center" ></Button>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="Summary_DefaultWidth" >
+                <Border Background="White" CornerRadius="5" Height="90" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock VerticalAlignment="Center" FontSize="16">
+                            <Run>Total account value is ₹ </Run>
+                            <Run Text="{Binding TotalValue, Mode=OneWay}" FontWeight="Bold"/>
+                        </TextBlock>
+                        <Button  Width="80" Height="34" Content="Details" FontWeight="Bold" Command="{Binding GetTotalValuesCommand}" 
+                             Margin="100,0,10,0" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Right" ></Button>
+                    </StackPanel>
+                </Border>
+        </DataTemplate>
+    </Page.Resources>
+    <Grid Background="#f3f5f7" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition Height="4*"></RowDefinition>
         </Grid.RowDefinitions>
+
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width=".25*"></ColumnDefinition>
-                <ColumnDefinition Width=".5*"></ColumnDefinition>
-                <ColumnDefinition Width=".25*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="6*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-           <Border CornerRadius="4" Margin="0,10,0,0" Grid.Column="1" HorizontalAlignment="Stretch" Background="White">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
-                <TextBlock VerticalAlignment="Center">
-                    <Run>Total account value is ₹ </Run>
-                    <Run Text="{x:Bind ViewModel.TotalValue, Mode=OneWay}" FontWeight="Bold"/>
-                    </TextBlock>
-                    <Button  Width="80" Height="40" Content="Click" Command="{x:Bind ViewModel.GetTotalValuesCommand}" 
-                             Margin="30,0,30,0" Style="{StaticResource AccentButtonStyle}" ></Button>
-            </StackPanel>
-        </Border>
-        </Grid>-->
+            <Grid Grid.Column="1"  HorizontalAlignment="Stretch" >
+                <ContentPresenter x:Name="summaryPanel" ContentTemplate="{StaticResource Summary_DefaultWidth}"
+                                HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"/>
+            </Grid>
+        </Grid>
 
-
-
-
-
-        <!--<VisualStateManager.VisualStateGroups>
+        <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
-                -->
-        <!-- Large window VisualState -->
-        <!--
+                <!--Large window VisualState-->
                 <VisualState>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="{StaticResource LargeWindowBreakpoint}"/>
                     </VisualState.StateTriggers>
                 </VisualState>
-
-                -->
-        <!-- Medium window VisualState -->
-        <!--
+                <!--Medium window VisualState-->
                 <VisualState>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="{StaticResource MediumWindowBreakpoint}"/>
                     </VisualState.StateTriggers>
                 </VisualState>
-
-                -->
-        <!-- Small window VisualState -->
-        <!--
+                <!--Small window VisualState-->
                 <VisualState>
                     <VisualState.StateTriggers >
                         <AdaptiveTrigger MinWindowWidth="{StaticResource MinWindowBreakpoint}"/>
                     </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="summaryPanel.ContentTemplate"
+                                Value="{StaticResource Summary_SmallWidth}" />
+                    </VisualState.Setters>
                 </VisualState>
-
             </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>-->
+        </VisualStateManager.VisualStateGroups>
+
+
 
     </Grid>
 </Page>

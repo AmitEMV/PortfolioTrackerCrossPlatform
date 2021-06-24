@@ -11,8 +11,8 @@
             </ResourceDictionary.MergedDictionaries>
             
             <x:Double x:Key="MinWindowBreakpoint">0</x:Double>
-            <x:Double x:Key="MediumWindowBreakpoint">641</x:Double>
-            <x:Double x:Key="LargeWindowBreakpoint">1008</x:Double>
+            <x:Double x:Key="MediumWindowBreakpoint">661</x:Double>
+            <x:Double x:Key="LargeWindowBreakpoint">1080</x:Double>
         </ResourceDictionary>
     </Application.Resources>
 
