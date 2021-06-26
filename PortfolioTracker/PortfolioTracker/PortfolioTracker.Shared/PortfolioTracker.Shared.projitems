@@ -18,6 +18,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\CurrencyConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ReturnConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Utils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IFundsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IPortfolioService.cs" />
