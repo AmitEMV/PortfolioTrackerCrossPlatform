@@ -30,8 +30,8 @@
                     MaxWidth="660">
                 <StackPanel HorizontalAlignment="Center">
                     <TextBlock HorizontalAlignment="Center" FontSize="14" Margin="0,5,0,0">
-                            <Run>Total account value is ₹ </Run>
-                            <Run Text="{Binding TotalValue, Mode=OneWay}" FontWeight="Bold"/>
+                            <Run>Total account value is </Run>
+                            <Run Text="{Binding TotalValue, Mode=OneWay, Converter={StaticResource CurrencyFormatter}}" FontWeight="Bold"/>
                     </TextBlock>
                     <Button  Width="80" Height="34" Content="Details"
                              Margin="0,20,0,10" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Center" ></Button>
@@ -42,8 +42,8 @@
             <Border Background="White" CornerRadius="5" Height="90" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <TextBlock VerticalAlignment="Center" FontSize="16">
-                            <Run>Total account value is ₹ </Run>
-                            <Run Text="{Binding TotalValue, Mode=OneWay}" FontWeight="Bold"/>
+                            <Run>Total account value is </Run>
+                            <Run Text="{Binding TotalValue, Mode=OneWay, Converter={StaticResource CurrencyFormatter}}" FontWeight="Bold"/>
                     </TextBlock>
                     <Button  Width="80" Height="34" Content="Details" FontWeight="Bold"
                              Margin="60,0,0,0" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Right" ></Button>
@@ -82,12 +82,12 @@
             </Border>
         </DataTemplate>
         <DataTemplate x:Key="Portfolio_DefaultWidth">
-            <Border Background="White" CornerRadius="5" Grid.Column="1" BorderBrush="Gray">
+            <Border Background="White" CornerRadius="5" Grid.Column="1" BorderBrush="Gray" Margin="0,25,0,0">
                 <controls:DataGrid  ItemsSource="{Binding PortfolioSnapshots}" AutoGenerateColumns="False"
                                HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto"
                                AlternatingRowBackground="Transparent" AlternatingRowForeground="Gray"
                                CanUserReorderColumns="False" CanUserResizeColumns="True" 
-                               CanUserSortColumns="True" RowHeight="40"
+                               CanUserSortColumns="True" RowHeight="50"
                                     HorizontalContentAlignment="Center"
                                IsReadOnly="True" HeadersVisibility="Column" GridLinesVisibility="All">
                     <controls:DataGrid.Columns>

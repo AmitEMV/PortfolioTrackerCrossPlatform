@@ -91,10 +91,16 @@
       <Version>2.0.3-uno.95</Version>
     </PackageReference>
     <PackageReference Include="Uno.UI" Version="3.8.6" />
+    <PackageReference Include="Uno.UI.Lottie">
+      <Version>3.8.6</Version>
+    </PackageReference>
     <PackageReference Include="Uno.UI.RemoteControl" Version="3.8.6" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Uno.UniversalImageLoader" Version="1.9.33" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData">
+      <Version>2.3.1</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />

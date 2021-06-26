@@ -100,6 +100,9 @@
       <Version>2.0.3-uno.95</Version>
     </PackageReference>
     <PackageReference Include="Uno.UI" Version="3.7.6" />
+    <PackageReference Include="Uno.UI.Lottie">
+      <Version>3.8.6</Version>
+    </PackageReference>
     <PackageReference Include="Uno.UI.RemoteControl" Version="3.7.6" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
