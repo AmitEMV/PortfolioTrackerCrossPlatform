@@ -12,6 +12,7 @@
     xmlns:primitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:converters="using:PortfolioTracker.Converters"
+    xmlns:not_skia="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     mc:Ignorable="d">
     <Interactivity:Interaction.Behaviors>
         <Interactions:EventTriggerBehavior EventName="Loaded">
@@ -130,7 +131,8 @@
         </DataTemplate>
     </Page.Resources>
     
-    <Grid Background="#f3f5f7" >
+    <!--#f3f5f7"-->
+    <Grid Background="#bdbac9" >
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"></RowDefinition>
             <RowDefinition Height="7*"></RowDefinition>
@@ -162,11 +164,11 @@
             </Grid>
         </Grid>
 
-        <StackPanel Grid.Row="1" Height="200" Width="300" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="4" 
+        <not_skia:StackPanel Grid.Row="1" Height="200" Width="300" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="4" 
                     BorderThickness="1" Background="White" Visibility="{Binding IsLoading}">
             <muxc:ProgressRing IsActive="{Binding IsLoading, Mode=OneWay}" AutomationProperties.Name="Progress image" Height="100" Width="100" VerticalAlignment="Top" Margin="0,30,0,0"/>
             <TextBlock Text="Fetching info ..." Margin="0,20,0,0" HorizontalAlignment="Center"/>
-        </StackPanel>
+        </not_skia:StackPanel>
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>

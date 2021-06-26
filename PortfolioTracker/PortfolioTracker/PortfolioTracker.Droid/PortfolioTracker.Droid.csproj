@@ -32,6 +32,11 @@
     <WarningLevel>4</WarningLevel>
     <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
     <AndroidLinkMode>None</AndroidLinkMode>
+    <AotAssemblies>false</AotAssemblies>
+    <EnableLLVM>false</EnableLLVM>
+    <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
+    <BundleAssemblies>false</BundleAssemblies>
+    <MandroidI18n />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>portable</DebugType>
@@ -98,9 +103,8 @@
     <PackageReference Include="Uno.UniversalImageLoader" Version="1.9.33" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
-    <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData">
-      <Version>2.3.1</Version>
-    </PackageReference>
+	 <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" Version="2.2.0.3" />
+    <PackageReference Include="Xamarin.AndroidX.AppCompat.AppCompatResources" Version="1.2.0.5" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
