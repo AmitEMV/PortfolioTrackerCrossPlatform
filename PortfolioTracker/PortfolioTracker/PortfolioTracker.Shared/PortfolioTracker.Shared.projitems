@@ -36,8 +36,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\FundsService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\PortfolioService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DashboardViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ManagePortfolioViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ManagePortfolioView.xaml.cs">
+      <DependentUpon>ManagePortfolioView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -46,6 +50,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Views\DashboardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\ManagePortfolioView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

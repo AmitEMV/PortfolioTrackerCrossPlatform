@@ -1,0 +1,246 @@
+﻿<Page
+    x:Class="PortfolioTracker.Views.ManagePortfolioView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PortfolioTracker.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:PortfolioTracker.ViewModels"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:primitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
+    xmlns:converters="using:PortfolioTracker.Converters"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:not_skia="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    mc:Ignorable="d">
+    <Interactivity:Interaction.Behaviors>
+        <Interactions:EventTriggerBehavior EventName="Loaded">
+            <Interactions:InvokeCommandAction Command="{Binding LoadStartupCommand}" />
+        </Interactions:EventTriggerBehavior>
+    </Interactivity:Interaction.Behaviors>
+    <Page.DataContext>
+        <viewmodels:ManagePortfolioViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+    <Page.Resources>
+        <converters:ReturnConverter x:Key="ReturnFormatter" />
+
+        <Style x:Key="NewColumnHeaderStyle" TargetType="primitives:DataGridColumnHeader">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+
+        <DataTemplate x:Key="AddFunds_SmallWidth">
+            <Border Background="White" CornerRadius="5" Height="Auto" HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Center"  MaxWidth="660">
+                <ScrollViewer HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="30">
+                        <TextBlock Text="Fund Name" FontSize="14"/>
+                        <ComboBox Margin="0,15,0,0" Height="34"
+                              HorizontalAlignment="Stretch"></ComboBox>
+
+                        <TextBlock Text="Purchase Date" 
+                               FontSize="14" Margin="0,20,0,0"/>
+                        <CalendarDatePicker Margin="0,15,0,0" Height="34"
+                              HorizontalAlignment="Left" Width="150"></CalendarDatePicker>
+
+                        <TextBlock Text="Purchased Units" 
+                               FontSize="14" Margin="0,20,0,0"/>
+                        <TextBox Margin="0,15,0,0" Height="34" FontSize="14"
+                              HorizontalAlignment="Left" Width="150"></TextBox>
+
+                        <Button  Width="100" Height="34" Content="Add Fund" Margin="0,-35,0,0"
+                                 Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Right">
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="AddFunds_DefaultWidth" >
+            <Border Background="White" CornerRadius="5" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                <ScrollViewer HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="30">
+                        <TextBlock Text="Fund Name" FontSize="16"/>
+                        <ComboBox Margin="0,15,0,0" Height="34"
+                              HorizontalAlignment="Stretch"></ComboBox>
+
+                        <TextBlock Text="Purchase Date" 
+                               FontSize="16" Margin="0,20,0,0"/>
+                        <CalendarDatePicker Margin="0,15,0,0" Height="34"
+                              HorizontalAlignment="Left" Width="200"></CalendarDatePicker>
+
+                        <TextBlock Text="Purchased Units" 
+                               FontSize="16" Margin="0,20,0,0"/>
+                        <TextBox Margin="0,15,0,0" Height="34" FontSize="16"
+                              HorizontalAlignment="Left" Width="200"></TextBox>
+
+                        <Button  Width="100" Height="34" Content="Add Fund" FontWeight="Bold"
+                                 Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Right"
+                                 Margin="0,-45,0,0">
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DeleteFunds_SmallWidth">
+            <Border Background="White" CornerRadius="5" Height="Auto" HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Center" MaxWidth="660">
+                <ScrollViewer HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto">
+                    <controls:DataGrid  AutoGenerateColumns="False" ItemsSource="{Binding PortfolioSnapshots}"
+                               HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto"
+                               AlternatingRowBackground="Transparent" AlternatingRowForeground="Gray"
+                               CanUserReorderColumns="False" CanUserResizeColumns="True" 
+                               CanUserSortColumns="True" RowHeight="50"
+                               ColumnHeaderStyle="{StaticResource NewColumnHeaderStyle}"
+                               HorizontalContentAlignment="Center" ColumnHeaderHeight="60"
+                               IsReadOnly="True" HeadersVisibility="Column" GridLinesVisibility="All">
+                        <controls:DataGrid.Columns>
+                            <controls:DataGridTextColumn Header="Fund Name" Width="4*"
+                                                     Binding="{Binding FundName}">
+                                <controls:DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextWrapping" Value="Wrap" />
+                                        <Setter Property="FontSize" Value="14" />
+                                    </Style>
+                                </controls:DataGridTextColumn.ElementStyle>
+                            </controls:DataGridTextColumn>
+                            <controls:DataGridTextColumn Header="Return" Width="2*"
+                                                         Binding="{Binding Return, Converter={StaticResource ReturnFormatter}}">
+                                <controls:DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontSize" Value="14" />
+                                    </Style>
+                                </controls:DataGridTextColumn.ElementStyle>
+                            </controls:DataGridTextColumn>
+                            <controls:DataGridTemplateColumn Width="3*">
+                                <controls:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                Style="{StaticResource AccentButtonStyle}" Background="#ce2d2d" 
+                                                Content="Remove" FontWeight="SemiBold" />
+                                    </DataTemplate>
+                                </controls:DataGridTemplateColumn.CellTemplate>
+                            </controls:DataGridTemplateColumn>
+                        </controls:DataGrid.Columns>
+                    </controls:DataGrid>
+                </ScrollViewer>
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="DeleteFunds_DefaultWidth">
+            <Border Background="White" CornerRadius="5" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                <ScrollViewer HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto">
+                    <controls:DataGrid  AutoGenerateColumns="False" ItemsSource="{Binding PortfolioSnapshots}"
+                               HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto"
+                               AlternatingRowBackground="Transparent" AlternatingRowForeground="Gray"
+                               CanUserReorderColumns="False" CanUserResizeColumns="True" 
+                               CanUserSortColumns="True" RowHeight="50"
+                               ColumnHeaderStyle="{StaticResource NewColumnHeaderStyle}"
+                               HorizontalContentAlignment="Center" ColumnHeaderHeight="60"
+                               IsReadOnly="True" HeadersVisibility="Column" GridLinesVisibility="All">
+                        <controls:DataGrid.Columns>
+                            <controls:DataGridTextColumn Header="Fund Name" Width="4*"
+                                                     Binding="{Binding FundName}">
+                                <controls:DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextWrapping" Value="Wrap" />
+                                        <Setter Property="FontSize" Value="16" />
+                                    </Style>
+                                </controls:DataGridTextColumn.ElementStyle>
+                            </controls:DataGridTextColumn>
+                            <controls:DataGridTextColumn Header="Return" Width="2*"
+                                                         Binding="{Binding Return, Converter={StaticResource ReturnFormatter}}">
+                                <controls:DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontSize" Value="16" />
+                                    </Style>
+                                </controls:DataGridTextColumn.ElementStyle>
+                            </controls:DataGridTextColumn>
+                            <controls:DataGridTemplateColumn Width="3*">
+                                <controls:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                Style="{StaticResource AccentButtonStyle}" Background="#ce2d2d" 
+                                                Content="Remove" FontWeight="SemiBold" />
+                                    </DataTemplate>
+                                </controls:DataGridTemplateColumn.CellTemplate>
+                            </controls:DataGridTemplateColumn>
+                        </controls:DataGrid.Columns>
+                    </controls:DataGrid>
+                </ScrollViewer>
+            </Border>
+        </DataTemplate>
+    </Page.Resources>
+    <Grid Background="#f3f5f7" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*"></ColumnDefinition>
+                <ColumnDefinition Width="80*"></ColumnDefinition>
+                <ColumnDefinition Width="10*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid HorizontalAlignment="Stretch" Grid.Column="1">
+                <controls:DockPanel>
+                    <TextBlock Text="Add funds to portfolio" FontWeight="SemiBold" 
+                           FontSize="16" Margin="0,30,0,0" controls:DockPanel.Dock="Top"/>
+                    <ContentPresenter x:Name="summaryPanel" ContentTemplate="{StaticResource AddFunds_DefaultWidth}"
+                                HorizontalContentAlignment="Stretch" VerticalContentAlignment="Top"
+                                Margin="0,20,0,0"/>
+                </controls:DockPanel>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,0,0,100">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*"></ColumnDefinition>
+                <ColumnDefinition Width="80*"></ColumnDefinition>
+                <ColumnDefinition Width="10*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid HorizontalAlignment="Stretch" Grid.Column="1">
+                <controls:DockPanel>
+                    <TextBlock Text="Delete funds from portfolio" FontWeight="SemiBold" 
+                           FontSize="16" controls:DockPanel.Dock="Top"  Margin="0,30,0,0" />
+                    <ContentPresenter x:Name="portfolioPanel" ContentTemplate="{StaticResource DeleteFunds_DefaultWidth}"
+                                      HorizontalContentAlignment="Stretch" VerticalContentAlignment="Top"
+                                      Margin="0,20,0,0"/>
+                </controls:DockPanel>
+            </Grid>
+        </Grid>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource LargeWindowBreakpoint}"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource MediumWindowBreakpoint}"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers >
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource MinWindowBreakpoint}"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="summaryPanel.ContentTemplate"
+                                Value="{StaticResource AddFunds_SmallWidth}" />
+                        <Setter Target="portfolioPanel.ContentTemplate"
+                                    Value="{StaticResource DeleteFunds_SmallWidth}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+
+    </Grid>
+</Page>

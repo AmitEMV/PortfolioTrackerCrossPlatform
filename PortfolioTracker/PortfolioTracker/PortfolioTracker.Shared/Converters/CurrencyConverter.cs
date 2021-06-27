@@ -9,7 +9,7 @@ namespace PortfolioTracker.Converters
         {
             if (value != null)
             {
-                return string.Format("{0:C2}", value);
+                return string.Format(new System.Globalization.CultureInfo("en-IN"),"{0:C2}", value);
             }
 
             return null;

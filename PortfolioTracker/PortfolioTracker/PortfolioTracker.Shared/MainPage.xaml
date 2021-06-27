@@ -18,6 +18,7 @@
                         PaneTitle="Portfolio Tracker"
 						IsTabStop="False"
                         PaneDisplayMode="Auto"
+                        SelectionChanged="RootNavigationView_SelectionChanged"
 						Grid.Row="1">
             <NavigationView.MenuItems>
                 <NavigationViewItem x:Name="DashboardItem" Content="Dashboard" Icon="FourBars" Tag="Dashboard"></NavigationViewItem>

@@ -25,17 +25,22 @@
     <Page.Resources>
         <converters:CurrencyConverter x:Key="CurrencyFormatter" />
         <converters:ReturnConverter x:Key="ReturnFormatter" />
-        
+
+        <Style x:Key="NewColumnHeaderStyle" TargetType="primitives:DataGridColumnHeader">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+
         <DataTemplate x:Key="Summary_SmallWidth">
             <Border Background="White" CornerRadius="5" Height="90" HorizontalAlignment="Stretch" VerticalAlignment="Center" 
                     MaxWidth="660">
-                <StackPanel HorizontalAlignment="Center">
-                    <TextBlock HorizontalAlignment="Center" FontSize="14" Margin="0,5,0,0">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock HorizontalAlignment="Center" FontSize="14" Margin="0,5,0,0" VerticalAlignment="Center">
                             <Run>Total account value is </Run>
                             <Run Text="{Binding TotalValue, Mode=OneWay, Converter={StaticResource CurrencyFormatter}}" FontWeight="Bold"/>
                     </TextBlock>
-                    <Button  Width="80" Height="34" Content="Details"
-                             Margin="0,20,0,10" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Center" ></Button>
+                    <!--<Button  Width="80" Height="34" Content="Details"
+                             Margin="0,20,0,10" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Center" ></Button>-->
                 </StackPanel>
             </Border>
         </DataTemplate>
@@ -46,20 +51,22 @@
                             <Run>Total account value is </Run>
                             <Run Text="{Binding TotalValue, Mode=OneWay, Converter={StaticResource CurrencyFormatter}}" FontWeight="Bold"/>
                     </TextBlock>
-                    <Button  Width="80" Height="34" Content="Details" FontWeight="Bold"
-                             Margin="60,0,0,0" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Right" ></Button>
+                    <!--<Button  Width="80" Height="34" Content="Details" FontWeight="Bold"
+                             Margin="60,0,0,0" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Right" ></Button>-->
                 </StackPanel>
             </Border>
         </DataTemplate>
 
         <DataTemplate x:Key="Portfolio_SmallWidth">
-            <Border Background="White" CornerRadius="5" Grid.Column="1">
+            <Border Background="White" CornerRadius="5" Grid.Column="1" Margin="0,35,0,0">
                 <controls:DataGrid  ItemsSource="{Binding PortfolioSnapshots}" AutoGenerateColumns="False"
                                HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto"
                                AlternatingRowBackground="Transparent" AlternatingRowForeground="Gray"
                                CanUserReorderColumns="False" CanUserResizeColumns="True" 
                                CanUserSortColumns="True" RowHeight="40" FontSize="14"
-                               IsReadOnly="True" HeadersVisibility="Column" GridLinesVisibility="All">
+                               IsReadOnly="True" HeadersVisibility="Column" 
+                               ColumnHeaderStyle="{StaticResource NewColumnHeaderStyle}"
+                               GridLinesVisibility="All" ColumnHeaderHeight="50">
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Fund Name" Width="7*"
                                                      Binding="{Binding FundName}">
@@ -83,14 +90,16 @@
             </Border>
         </DataTemplate>
         <DataTemplate x:Key="Portfolio_DefaultWidth">
-            <Border Background="White" CornerRadius="5" Grid.Column="1" BorderBrush="Gray" Margin="0,25,0,0">
+            <Border Background="White" CornerRadius="5" Grid.Column="1" BorderBrush="Gray" Margin="0,35,0,0">
                 <controls:DataGrid  ItemsSource="{Binding PortfolioSnapshots}" AutoGenerateColumns="False"
                                HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto"
                                AlternatingRowBackground="Transparent" AlternatingRowForeground="Gray"
                                CanUserReorderColumns="False" CanUserResizeColumns="True" 
-                               CanUserSortColumns="True" RowHeight="50"
-                                    HorizontalContentAlignment="Center"
-                               IsReadOnly="True" HeadersVisibility="Column" GridLinesVisibility="All">
+                               CanUserSortColumns="True" RowHeight="50" ColumnHeaderHeight="60"
+                               HorizontalContentAlignment="Center"
+                               IsReadOnly="True" HeadersVisibility="Column" 
+                               ColumnHeaderStyle="{StaticResource NewColumnHeaderStyle}"
+                               GridLinesVisibility="All">
                     <controls:DataGrid.Columns>
                         <controls:DataGridTextColumn Header="Fund Name" Width="4*"
                                                      Binding="{Binding FundName}">
@@ -131,8 +140,7 @@
         </DataTemplate>
     </Page.Resources>
     
-    <!--#f3f5f7"-->
-    <Grid Background="#bdbac9" >
+    <Grid Background="#f3f5f7" >
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"></RowDefinition>
             <RowDefinition Height="7*"></RowDefinition>
@@ -160,7 +168,7 @@
             <Grid Grid.Column="1"  HorizontalAlignment="Stretch" >
                 <TextBlock Text="Portfolio Snapshot" FontWeight="SemiBold" FontSize="16"/>
                 <ContentPresenter x:Name="portfolioPanel" ContentTemplate="{StaticResource Portfolio_DefaultWidth}"
-                                HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center"/>
+                                HorizontalContentAlignment="Stretch" VerticalContentAlignment="Top"/>
             </Grid>
         </Grid>
 

@@ -27,10 +27,10 @@ namespace PortfolioTracker
         {
             this.InitializeComponent();
 
-#if __ANDROID__ || __IOS__
+#if __ANDROID__
     RootNavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.Auto;
 #else
-    RootNavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.Top;
+            RootNavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.Top;
 #endif
         }
 
@@ -38,6 +38,23 @@ namespace PortfolioTracker
         {
             RootNavigationView.SelectedItem = DashboardItem;
             NavigationFrame.Navigate(typeof(DashboardView));
+        }
+
+        private void RootNavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        {
+            var clickedItem = (Windows.UI.Xaml.Controls.NavigationViewItem)args.SelectedItem;
+            string itemTag = (string)clickedItem.Tag;
+
+            switch (itemTag)
+            {
+                case "Dashboard":
+                    NavigationFrame.Navigate(typeof(DashboardView));
+                    break;
+
+                case "Manage Portfolio":
+                    NavigationFrame.Navigate(typeof(ManagePortfolioView));
+                    break;
+            }
         }
     }
 }
