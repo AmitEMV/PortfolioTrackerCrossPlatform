@@ -12,8 +12,10 @@
     xmlns:primitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
     xmlns:converters="using:PortfolioTracker.Converters"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:newfunddata="using:PortfolioTracker.Models"
     xmlns:not_skia="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    x:Name="portfolioPage">
     <Interactivity:Interaction.Behaviors>
         <Interactions:EventTriggerBehavior EventName="Loaded">
             <Interactions:InvokeCommandAction Command="{Binding LoadStartupCommand}" />
@@ -24,6 +26,7 @@
     </Page.DataContext>
     <Page.Resources>
         <converters:ReturnConverter x:Key="ReturnFormatter" />
+        <converters:DateTimeConverter x:Key="DateTimeConverter" />
 
         <Style x:Key="NewColumnHeaderStyle" TargetType="primitives:DataGridColumnHeader">
             <Setter Property="FontSize" Value="16" />
@@ -38,47 +41,63 @@
                     <StackPanel Margin="30">
                         <TextBlock Text="Fund Name" FontSize="14"/>
                         <ComboBox Margin="0,15,0,0" Height="34"
-                              HorizontalAlignment="Stretch"></ComboBox>
+                                  x:Name="fundsListDropdownSmall"
+                                  ItemsSource="{Binding FundsList}"
+                                  DisplayMemberPath="FundName"
+                                  SelectedValue="{Binding SelectedFund, Mode=TwoWay}"
+                                  SelectedValuePath="Id"
+                                  HorizontalAlignment="Stretch"></ComboBox>
 
                         <TextBlock Text="Purchase Date" 
                                FontSize="14" Margin="0,20,0,0"/>
                         <CalendarDatePicker Margin="0,15,0,0" Height="34"
-                              HorizontalAlignment="Left" Width="150"></CalendarDatePicker>
+                                            HorizontalAlignment="Left" Width="150"
+                                            Date ="{Binding PurchasedDate, Mode=TwoWay, Converter={StaticResource DateTimeConverter}}" ></CalendarDatePicker>
 
                         <TextBlock Text="Purchased Units" 
-                               FontSize="14" Margin="0,20,0,0"/>
+                                   FontSize="14" Margin="0,20,0,0"/>
                         <TextBox Margin="0,15,0,0" Height="34" FontSize="14"
-                              HorizontalAlignment="Left" Width="150"></TextBox>
+                                 HorizontalAlignment="Left" Width="150"
+                                 Text="{Binding PurchasedUnits, Mode=TwoWay}"></TextBox>
 
                         <Button  Width="100" Height="34" Content="Add Fund" Margin="0,-35,0,0"
+                                 Command="{Binding AddNewFundCommand}"
+                                 CommandParameter="{Binding ElementName=fundsListDropdownSmall, Path=SelectedItem}"
                                  Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Right">
                         </Button>
                     </StackPanel>
                 </ScrollViewer>
             </Border>
         </DataTemplate>
-        <DataTemplate x:Key="AddFunds_DefaultWidth" >
+        <DataTemplate x:Key="AddFunds_DefaultWidth">
             <Border Background="White" CornerRadius="5" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                 <ScrollViewer HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled"
                               VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="30">
                         <TextBlock Text="Fund Name" FontSize="16"/>
-                        <ComboBox Margin="0,15,0,0" Height="34"
-                              HorizontalAlignment="Stretch"></ComboBox>
+                        <ComboBox x:Name="fundsListDropdown"
+                                  Margin="0,15,0,0" Height="34"
+                                  ItemsSource="{Binding FundsList}"
+                                  DisplayMemberPath="FundName"
+                                  SelectedValuePath="Id"
+                                  HorizontalAlignment="Stretch"></ComboBox>
 
                         <TextBlock Text="Purchase Date" 
                                FontSize="16" Margin="0,20,0,0"/>
                         <CalendarDatePicker Margin="0,15,0,0" Height="34"
-                              HorizontalAlignment="Left" Width="200"></CalendarDatePicker>
+                                            HorizontalAlignment="Left" Width="200"
+                                            Date ="{Binding PurchasedDate, Mode=TwoWay, Converter={StaticResource DateTimeConverter}}" ></CalendarDatePicker>
 
                         <TextBlock Text="Purchased Units" 
-                               FontSize="16" Margin="0,20,0,0"/>
+                                   FontSize="16" Margin="0,20,0,0"/>
                         <TextBox Margin="0,15,0,0" Height="34" FontSize="16"
-                              HorizontalAlignment="Left" Width="200"></TextBox>
+                                 HorizontalAlignment="Left" Width="200"
+                                 Text="{Binding PurchasedUnits, Mode=TwoWay}"></TextBox>
 
                         <Button  Width="100" Height="34" Content="Add Fund" FontWeight="Bold"
                                  Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Right"
-                                 Margin="0,-45,0,0">
+                                 Margin="0,-45,0,0" Command="{Binding AddNewFundCommand}"
+                                 CommandParameter="{Binding ElementName=fundsListDropdown, Path=SelectedItem}">
                         </Button>
                     </StackPanel>
                 </ScrollViewer>
@@ -88,94 +107,107 @@
         <DataTemplate x:Key="DeleteFunds_SmallWidth">
             <Border Background="White" CornerRadius="5" Height="Auto" HorizontalAlignment="Stretch" 
                     VerticalAlignment="Center" MaxWidth="660">
-                <ScrollViewer HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled"
-                              VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto">
-                    <controls:DataGrid  AutoGenerateColumns="False" ItemsSource="{Binding PortfolioSnapshots}"
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="60"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ScrollViewer HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled"
+                                  VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto"
+                                  Grid.Row="0">
+                        <controls:DataGrid  x:Name="deleteGridSmall"
+                               AutoGenerateColumns="False" ItemsSource="{Binding PortfolioSnapshots}"
                                HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto"
                                AlternatingRowBackground="Transparent" AlternatingRowForeground="Gray"
                                CanUserReorderColumns="False" CanUserResizeColumns="True" 
                                CanUserSortColumns="True" RowHeight="50"
                                ColumnHeaderStyle="{StaticResource NewColumnHeaderStyle}"
                                HorizontalContentAlignment="Center" ColumnHeaderHeight="60"
-                               IsReadOnly="True" HeadersVisibility="Column" GridLinesVisibility="All">
-                        <controls:DataGrid.Columns>
-                            <controls:DataGridTextColumn Header="Fund Name" Width="4*"
+                               IsReadOnly="True" HeadersVisibility="Column" 
+                               GridLinesVisibility="All">
+                            <controls:DataGrid.Columns>
+                                <controls:DataGridTextColumn Header="Fund Name" Width="7*"
                                                      Binding="{Binding FundName}">
-                                <controls:DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="TextWrapping" Value="Wrap" />
-                                        <Setter Property="FontSize" Value="14" />
-                                    </Style>
-                                </controls:DataGridTextColumn.ElementStyle>
-                            </controls:DataGridTextColumn>
-                            <controls:DataGridTextColumn Header="Return" Width="2*"
+                                    <controls:DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="TextWrapping" Value="Wrap" />
+                                            <Setter Property="FontSize" Value="14" />
+                                        </Style>
+                                    </controls:DataGridTextColumn.ElementStyle>
+                                </controls:DataGridTextColumn>
+                                <controls:DataGridTextColumn Header="Return" Width="3*"
                                                          Binding="{Binding Return, Converter={StaticResource ReturnFormatter}}">
-                                <controls:DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="FontSize" Value="14" />
-                                    </Style>
-                                </controls:DataGridTextColumn.ElementStyle>
-                            </controls:DataGridTextColumn>
-                            <controls:DataGridTemplateColumn Width="3*">
-                                <controls:DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                Style="{StaticResource AccentButtonStyle}" Background="#ce2d2d" 
-                                                Content="Remove" FontWeight="SemiBold" />
-                                    </DataTemplate>
-                                </controls:DataGridTemplateColumn.CellTemplate>
-                            </controls:DataGridTemplateColumn>
-                        </controls:DataGrid.Columns>
-                    </controls:DataGrid>
-                </ScrollViewer>
+                                    <controls:DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontSize" Value="14" />
+                                        </Style>
+                                    </controls:DataGridTextColumn.ElementStyle>
+                                </controls:DataGridTextColumn>
+                            </controls:DataGrid.Columns>
+                        </controls:DataGrid>
+                    </ScrollViewer>
+                    <Button HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                Grid.Row="1" Style="{StaticResource AccentButtonStyle}"
+                                Background="#ce2d2d" Width="80"
+                                Content="Remove" FontWeight="SemiBold"
+                                CommandParameter="{Binding ElementName=deleteGridSmall, Path=SelectedItem}"
+                                Command="{Binding RemoveFundCommand}"></Button>
+                </Grid>
             </Border>
         </DataTemplate>
         <DataTemplate x:Key="DeleteFunds_DefaultWidth">
             <Border Background="White" CornerRadius="5" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                <ScrollViewer HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled"
-                              VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto">
-                    <controls:DataGrid  AutoGenerateColumns="False" ItemsSource="{Binding PortfolioSnapshots}"
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="60"></RowDefinition>
+                        </Grid.RowDefinitions>
+                    <ScrollViewer HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled"
+                                  VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto"
+                                  Grid.Row="0">
+                        <controls:DataGrid x:Name="deleteGrid"
+                               AutoGenerateColumns="False" ItemsSource="{Binding PortfolioSnapshots}"
                                HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto"
                                AlternatingRowBackground="Transparent" AlternatingRowForeground="Gray"
                                CanUserReorderColumns="False" CanUserResizeColumns="True" 
                                CanUserSortColumns="True" RowHeight="50"
                                ColumnHeaderStyle="{StaticResource NewColumnHeaderStyle}"
                                HorizontalContentAlignment="Center" ColumnHeaderHeight="60"
-                               IsReadOnly="True" HeadersVisibility="Column" GridLinesVisibility="All">
-                        <controls:DataGrid.Columns>
-                            <controls:DataGridTextColumn Header="Fund Name" Width="4*"
+                               IsReadOnly="True" HeadersVisibility="Column" 
+                               GridLinesVisibility="All">
+                            <controls:DataGrid.Columns>
+                                <controls:DataGridTextColumn Header="Fund Name" Width="7*"
                                                      Binding="{Binding FundName}">
-                                <controls:DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="TextWrapping" Value="Wrap" />
-                                        <Setter Property="FontSize" Value="16" />
-                                    </Style>
-                                </controls:DataGridTextColumn.ElementStyle>
-                            </controls:DataGridTextColumn>
-                            <controls:DataGridTextColumn Header="Return" Width="2*"
+                                    <controls:DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="TextWrapping" Value="Wrap" />
+                                            <Setter Property="FontSize" Value="16" />
+                                        </Style>
+                                    </controls:DataGridTextColumn.ElementStyle>
+                                </controls:DataGridTextColumn>
+                                <controls:DataGridTextColumn Header="Return" Width="3*"
                                                          Binding="{Binding Return, Converter={StaticResource ReturnFormatter}}">
-                                <controls:DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="FontSize" Value="16" />
-                                    </Style>
-                                </controls:DataGridTextColumn.ElementStyle>
-                            </controls:DataGridTextColumn>
-                            <controls:DataGridTemplateColumn Width="3*">
-                                <controls:DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                Style="{StaticResource AccentButtonStyle}" Background="#ce2d2d" 
-                                                Content="Remove" FontWeight="SemiBold" />
-                                    </DataTemplate>
-                                </controls:DataGridTemplateColumn.CellTemplate>
-                            </controls:DataGridTemplateColumn>
-                        </controls:DataGrid.Columns>
-                    </controls:DataGrid>
-                </ScrollViewer>
+                                    <controls:DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontSize" Value="16" />
+                                        </Style>
+                                    </controls:DataGridTextColumn.ElementStyle>
+                                </controls:DataGridTextColumn>
+                            </controls:DataGrid.Columns>
+                        </controls:DataGrid>
+                    </ScrollViewer>
+                    <Button HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                Grid.Row="1" Style="{StaticResource AccentButtonStyle}"
+                                Background="#ce2d2d" Width="120"
+                                Content="Remove" FontWeight="SemiBold"
+                                CommandParameter="{Binding ElementName=deleteGrid, Path=SelectedItem}"
+                                Command="{Binding RemoveFundCommand}"></Button>
+                    </Grid>
+
             </Border>
         </DataTemplate>
     </Page.Resources>
-    <Grid Background="#f3f5f7" >
+    <Grid Background="#f3f5f7">
         <Grid.RowDefinitions>
             <RowDefinition Height="5*"></RowDefinition>
             <RowDefinition Height="5*"></RowDefinition>
@@ -190,15 +222,15 @@
             <Grid HorizontalAlignment="Stretch" Grid.Column="1">
                 <controls:DockPanel>
                     <TextBlock Text="Add funds to portfolio" FontWeight="SemiBold" 
-                           FontSize="16" Margin="0,30,0,0" controls:DockPanel.Dock="Top"/>
-                    <ContentPresenter x:Name="summaryPanel" ContentTemplate="{StaticResource AddFunds_DefaultWidth}"
+                               FontSize="16" Margin="0,15,0,0" controls:DockPanel.Dock="Top"/>
+                    <ContentPresenter x:Name="summaryPanel"  ContentTemplate="{StaticResource AddFunds_DefaultWidth}"
                                 HorizontalContentAlignment="Stretch" VerticalContentAlignment="Top"
                                 Margin="0,20,0,0"/>
                 </controls:DockPanel>
             </Grid>
         </Grid>
 
-        <Grid Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,0,0,100">
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,0,0,50">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10*"></ColumnDefinition>
                 <ColumnDefinition Width="80*"></ColumnDefinition>
@@ -207,7 +239,7 @@
             <Grid HorizontalAlignment="Stretch" Grid.Column="1">
                 <controls:DockPanel>
                     <TextBlock Text="Delete funds from portfolio" FontWeight="SemiBold" 
-                           FontSize="16" controls:DockPanel.Dock="Top"  Margin="0,30,0,0" />
+                               FontSize="16" controls:DockPanel.Dock="Top" />
                     <ContentPresenter x:Name="portfolioPanel" ContentTemplate="{StaticResource DeleteFunds_DefaultWidth}"
                                       HorizontalContentAlignment="Stretch" VerticalContentAlignment="Top"
                                       Margin="0,20,0,0"/>
